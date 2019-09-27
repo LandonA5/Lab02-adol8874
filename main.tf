@@ -21,12 +21,18 @@ resource "google_compute_instance" "vm_instance" {
     }
   }
 
-    provisioner "file" {
+  connection {
+    type = "ssh"
+    user = "root"
+    private_key = "${file("~/.ssh/id_rsa")}"
+  }
+
+ provisioner "file" {
     source      = "install.sh"
     destination = "/tmp/install.sh"
   }
 
-    provisioner "file" {
+ provisioner "file" {
     source      = "www"
     destination = "/tmp/www"
   }
