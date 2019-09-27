@@ -20,6 +20,23 @@ resource "google_compute_instance" "vm_instance" {
     access_config {
     }
   }
+
+    provisioner "file" {
+    source      = "install.sh"
+    destination = "/tmp/install.sh"
+  }
+
+    provisioner "file" {
+    source      = "www"
+    destination = "/tmp/www"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/install.sh",
+      "/tmp/install.sh",
+    ]
+  }
 }
 
 resource "google_compute_network" "vpc_network" {
